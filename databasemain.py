@@ -1,9 +1,8 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
+import mysql.connector, re
 from typing import Optional
-from pathlib import Path
-import json, re
 
 app = FastAPI()
 app.add_middleware(
@@ -14,10 +13,15 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-# ------------------ Load Dummy Data ------------------
-DB_FILE = Path(__file__).parent / "dummy_data/rates.json"
-with open(DB_FILE, "r", encoding="utf-8") as f:
-    DUMMY_RATES = json.load(f)
+# ------------------ DB Connection ------------------
+db = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="",
+    port="3307",
+    database="chatbot"
+)
+cursor = db.cursor(dictionary=True)
 
 # ------------------ Models ------------------
 class ChatRequest(BaseModel):
@@ -50,9 +54,10 @@ def reset_session(session_id: str):
     }
 
 # ------------------ Helpers ------------------
-def detect_country(msg: str) -> Optional[str]: 
+def detect_country(msg: str) -> Optional[str]:
     msg = msg.lower()
-    for r in DUMMY_RATES:
+    cursor.execute("SELECT DISTINCT country FROM ccrate")
+    for r in cursor.fetchall():
         if r["country"].lower() in msg:
             return r["country"]
     return None
@@ -99,7 +104,7 @@ def detect_status(msg: str):
 def answer_rate_query(msg: str, session_id: str) -> str:
     state = get_session(session_id)
     msg = msg.lower().strip()
-
+    print("msg",msg)
     # Detect all info from user message
     state["country"] = state["country"] or detect_country(msg)
     state["category"] = state["category"] or detect_category(msg)
@@ -111,29 +116,35 @@ def answer_rate_query(msg: str, session_id: str) -> str:
     # If country missing, ask
     if not state["country"]:
         return "Please specify the destination country."
+    # If category missing, ask
     if not state["category"]:
         return f"Share which quality of {state['country']}? (CC or CLI)"
+    # If profile missing, ask
     if not state["profile"]:
         return "Specify your profile (IVR or Outbound)."
+    # If quality missing, ask
     if not state["quality"]:
         return "Do you want Local or International, Random or Correct, Mobile, or Fix?"
 
-    # ✅ Filter records from dummy data
-    records = []
-    for r in DUMMY_RATES:
-        if r["country"] != state["country"]:
-            continue
-        if r["category"] != state["category"]:
-            continue
-        if state["profile"] not in r["profile"]:
-            continue
-        if not all(q in r["qualityDescription"] for q in state["quality"]):
-            continue
-        if state["rate"] and float(r["rate"]) != state["rate"]:
-            continue
-        if state["status"] and r["status"] != state["status"]:
-            continue
-        records.append(r)
+    # ✅ Build SQL query dynamically
+    conditions = ["country=%s", "category=%s", "profile LIKE %s"]
+    params = [state["country"], state["category"], f"%{state['profile']}%"]
+
+    for q in state["quality"]:
+        conditions.append("qualityDescription LIKE %s")
+        params.append(f"%{q}%")
+
+    if state["rate"]:
+        conditions.append("rate=%s")
+        params.append(state["rate"])
+
+    if state["status"]:
+        conditions.append("status=%s")
+        params.append(state["status"])
+
+    query = f"SELECT * FROM ccrate WHERE {' AND '.join(conditions)} ORDER BY addedTime DESC"
+    cursor.execute(query, tuple(params))
+    records = cursor.fetchall()
 
     if not records:
         reset_session(session_id)

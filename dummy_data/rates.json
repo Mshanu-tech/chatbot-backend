@@ -1,0 +1,92 @@
+[
+    {
+        "country": "India",
+        "category": "CC",
+        "profile": "IVR",
+        "qualityDescription": "IVR Mobile, CC Local Correct Display",
+        "billingCycle": "1/1",
+        "rate": "0.05",
+        "status": "Active"
+    },
+    {
+        "country": "India",
+        "category": "CLI",
+        "profile": "Outbound",
+        "qualityDescription": "CLI International",
+        "billingCycle": "30/30",
+        "rate": "0.12",
+        "status": "Active"
+    },
+    {
+        "country": "India",
+        "category": "CC",
+        "profile": "Outbound",
+        "qualityDescription": "CC Local Fix Display",
+        "billingCycle": "15/15",
+        "rate": "0.08",
+        "status": "Inactive"
+    },
+    {
+        "country": "India",
+        "category": "CLI",
+        "profile": "IVR",
+        "qualityDescription": "CLI Mobile, Correct Display",
+        "billingCycle": "10/10",
+        "rate": "0.10",
+        "status": "Active"
+    },
+    {
+        "country": "USA",
+        "category": "CC",
+        "profile": "IVR",
+        "qualityDescription": "IVR Mobile, CC Local Correct Display",
+        "billingCycle": "1/1",
+        "rate": "0.15",
+        "status": "Active"
+    },
+    {
+        "country": "USA",
+        "category": "CLI",
+        "profile": "Outbound",
+        "qualityDescription": "CLI International, Correct Display",
+        "billingCycle": "30/30",
+        "rate": "0.20",
+        "status": "Inactive"
+    },
+    {
+        "country": "UK",
+        "category": "CC",
+        "profile": "IVR",
+        "qualityDescription": "IVR Mobile, CC Local Correct Display",
+        "billingCycle": "1/1",
+        "rate": "0.18",
+        "status": "Active"
+    },
+    {
+        "country": "UK",
+        "category": "CLI",
+        "profile": "Outbound",
+        "qualityDescription": "CLI International",
+        "billingCycle": "30/30",
+        "rate": "0.25",
+        "status": "Active"
+    },
+    {
+        "country": "Canada",
+        "category": "CC",
+        "profile": "IVR",
+        "qualityDescription": "IVR Mobile, CC Fix Display",
+        "billingCycle": "1/1",
+        "rate": "0.22",
+        "status": "Active"
+    },
+    {
+        "country": "Canada",
+        "category": "CLI",
+        "profile": "Outbound",
+        "qualityDescription": "CLI International, Mobile Display",
+        "billingCycle": "30/30",
+        "rate": "0.30",
+        "status": "Inactive"
+    }
+]
