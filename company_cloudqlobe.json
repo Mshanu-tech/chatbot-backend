@@ -1,0 +1,26 @@
+{
+  "name": "Cloud Qlobe",
+  "tagline": "Next-Gen Telecom & Smart Communication Solutions",
+  "about": "CloudQlobe enables businesses to connect worldwide using reliable VoIP platforms and secure SIP routing.",
+  "services": [
+    "Global connectivity",
+    "Cloud telephony",
+    "Enterprise-grade communication services",
+    "VoIP platform",
+    "SIP routing",
+    "Call Center / CC routes"
+  ],
+  "specialties": [
+    "CC routes for A to Z destinations",
+    "High quality service with 100+ interconnections"
+  ],
+  "website": "https://www.cloudqlobe.com",
+  "social": {
+    "linkedin": "Cloud Qlobe",
+    "facebook": "Cloud Qlobe"
+  },
+  "contact": {
+    "email": "support@cloudqlobe.com",
+    "phone": null
+  }
+}
