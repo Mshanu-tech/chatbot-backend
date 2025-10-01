@@ -2,7 +2,4 @@ fastapi==0.104.0
 uvicorn[standard]==0.23.2
 python-dotenv==1.0.0
 requests==2.32.0
-
-mysql-connector-python==8.1.1
-SQLAlchemy==2.0.20
-
+mysql-connector-python==8.0.33
